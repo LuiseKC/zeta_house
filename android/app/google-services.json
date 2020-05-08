@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "107139198355",
-    "firebase_url": "https://teste1-e8700.firebaseio.com",
-    "project_id": "teste1-e8700",
-    "storage_bucket": "teste1-e8700.appspot.com"
+    "project_number": "234530946608",
+    "firebase_url": "https://zeta-house-project.firebaseio.com",
+    "project_id": "zeta-house-project",
+    "storage_bucket": "zeta-house-project.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:107139198355:android:fc8887e09dfd9aab47cc66",
+        "mobilesdk_app_id": "1:234530946608:android:1e1b5cce3e528b851137f5",
         "android_client_info": {
           "package_name": "com.example.zeta_house"
         }
       },
       "oauth_client": [
         {
-          "client_id": "107139198355-d31kjh23qqp8n6fifrfaukr79pjchoja.apps.googleusercontent.com",
+          "client_id": "234530946608-572jtglo0mvu6g30b5mfqke2m8hgh9qo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBI4qCmBeaznGly3rp5R3t_jBJ2RW3BNdY"
+          "current_key": "AIzaSyCUgx-acepPsPunI5EUqIIV9Zz3SR5t0jM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "107139198355-d31kjh23qqp8n6fifrfaukr79pjchoja.apps.googleusercontent.com",
+              "client_id": "234530946608-572jtglo0mvu6g30b5mfqke2m8hgh9qo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

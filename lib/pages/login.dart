@@ -9,6 +9,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final controllerName = TextEditingController();
+  final controllerPassword = TextEditingController();
+  final controllerEmail = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -29,12 +33,13 @@ class _LoginPageState extends State<LoginPage> {
                     image: AssetImage('images/logo_zeta2.png'),
                   ),
                 ),
-                //SizedBox(height: 30),
+                SizedBox(height: 30),
                 TextField(
+                  controller: controllerEmail,
                   style: TextStyle(
                     color: Color.fromRGBO(15, 184, 214, 1),
                   ),
-                  decoration: new InputDecoration(
+                  decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromRGBO(15, 184, 214, 1),
@@ -54,9 +59,10 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 20),
                 TextField(
+                  controller: controllerPassword,
                   obscureText: true,
                   style: TextStyle(color: Color.fromRGBO(15, 184, 214, 1)),
-                  decoration: new InputDecoration(
+                  decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromRGBO(15, 184, 214, 1),
@@ -102,12 +108,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 FlatButton(
                   child: Text(
-                    'Criar conta',
+                    'Esqueceu senha?',
                     style: TextStyle(
-                      color: Color.fromRGBO(255, 250, 250, 0.7),
+                      color: Color.fromRGBO(19, 137, 196, 1),
                     ),
                   ),
-                  onPressed: null,
+                  onPressed: () {},
                 ),
               ],
             ),

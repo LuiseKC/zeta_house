@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:zeta_house/pages/login.dart';
 import 'package:zeta_house/pages/new_user.dart';
 import 'package:zeta_house/pages/users.dart';
 
 void main() => runApp(MyApp());
-
-//colors;
 
 
 class MyApp extends StatelessWidget {
