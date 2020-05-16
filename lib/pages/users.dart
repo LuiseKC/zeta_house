@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Users extends StatelessWidget {
+class User extends StatelessWidget {
+  final databaseReference = Firestore.instance;
+
   @override
   Widget build(BuildContext context) {
     final title = 'Users';
@@ -25,101 +28,97 @@ class Users extends StatelessWidget {
   }
 }
 
-class Choice {
-  const Choice({this.title, this.icon});
+class Users extends StatelessWidget {
+  final title = 'Users';
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Container(
+        child: StreamBuilder(
+          stream: Firestore.instance
+              .collection("Usuario")
+              .orderBy("Nome")
+              .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return usersList(snapshot);
+            } else {
+              return Text("Nenhuma usuário encontrado");
+            }
+          },
+        ),
+      ),
 
-  final String title;
+    );
+  }
+  usersList(snapshot) {
+    return ListView.separated(
+        scrollDirection: Axis.vertical,
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.greenAccent,
+        ),
+        shrinkWrap: true,
+        itemCount: snapshot.data.documents.length,
+        padding: const EdgeInsets.all(5.0),
+        itemBuilder: (context, index) {
+          DocumentSnapshot ds = snapshot.data.documents[index];
+          Row row = Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            textDirection: TextDirection.ltr,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
+              ),
+              Expanded(child: Text(ds["Nome"]), flex: 2),
+              Expanded(
+                  child: Text(
+                    ds["Email"],
+                  ),
+                  flex: 3),
+              Expanded(
+                  child: Text(
+                    ds["Admin"].toString(),
+                  ),
+                  flex: 1),
+            ],
+          );
+
+          return row;
+        });
+  }
+
+  test7UusersList(snapshot) {
+    return ListView(
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(20.0),
+      children: List.generate(
+        snapshot.data.documents.length,
+            (index) {
+          return Center(
+            child: ChoiceCard(choice: choices[index], item: choices[index]),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class Choice {
+  const Choice({this.name, this.email, this.icon});
+
+  final String name;
+  final String email;
   final IconData icon;
 }
 
 //region choices
 const List<Choice> choices = const <Choice>[
   const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title:
-          'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle. This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle. This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle.',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
+      name: 'This is a Boat, because its a Boat. So, it\'s a Boat',
       icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Car, because its a car. So, it\'s a car',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Car, because its a car. So, it\'s a car',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-  const Choice(
-      title: 'This is a Car, because its a car. So, it\'s a car',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
 ];
 //endregion
 
@@ -139,6 +138,8 @@ class ChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final databaseReference = Firestore.instance;
+    databaseReference.collection("Usuarios").getDocuments();
     TextStyle textStyle = Theme.of(context).textTheme.display1;
     if (selected)
       textStyle = textStyle.copyWith(color: Colors.lightGreenAccent[400]);
@@ -159,7 +160,8 @@ class ChoiceCard extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               alignment: Alignment.topLeft,
               child: Text(
-                choice.title,
+                //choice.name,
+                "Teste",
                 style: TextStyle(
                   color: Color.fromRGBO(19, 37, 69, 1),
                 ),
