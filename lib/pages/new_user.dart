@@ -121,9 +121,9 @@ class _NewUserState extends State<NewUser> {
 
     DocumentReference ref = await databaseReference.collection("Usuario")
         .add({
-      'Nome': nome,
-      'Email': email,
-      'Admin': isAdmin,
+      'nome': nome,
+      'email': email,
+      'admin': isAdmin,
     });
     print(ref.documentID);
   }
