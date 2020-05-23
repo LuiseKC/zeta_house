@@ -33,6 +33,10 @@ dev_dependencies:
     sdk: flutter
   firebase_core: ^0.4.0
   cloud_firestore: ^0.11.0+2
+  http: ^0.12.1
+  web_socket_channel: ^1.1.0
+  socket_io_client: ^0.9.4
+  flutter_simple_dependency_injection: ^1.0.1
 
 
 # For information on the generic Dart part of this file, see the
@@ -43,7 +47,7 @@ flutter:
   assets:
     - images/logo_zeta.jpg
     - images/logo_zeta2.png
-    - images/user_img.png
+    #- images/user_img.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

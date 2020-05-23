@@ -1,27 +1,42 @@
+import 'dart:convert';
+
 class Usuario {
-  //int usuarioId;
-  String nome;
-  String email;
-  String senha;
-  bool admin;
+  String Id;
+  String Email;
+  String Senha;
+  bool Admin;
+  String GrupoId;
+  String Nome;
+  String ApiToken;
 
 //String enderecoId;
 //DateTime dateUltimoAcesso;
 //int grupoId;
 //bool excluido;
 
-  Usuario(this.nome, this.email, this.senha, this.admin);
+  Usuario();
+  void CreateUserFromJson(Map<String, dynamic> jsonUsuario){
+    Id = jsonUsuario['Id'];
+    Email = jsonUsuario['Email'];
+    Senha = jsonUsuario['Senha'];
+    GrupoId = jsonUsuario['GrupoId'];
+    Nome = jsonUsuario['Nome'];
+    ApiToken = jsonUsuario['ApiToken'];
+  }
 
   Usuario.fromJson(Map<String, dynamic> json)
-      : nome = json['name'],
-        email = json['email'],
-        senha = json['senha'],
-        admin = json['admin'];
+      : Nome = json['data']['Nome'],
+        Email= json['data']['Email'],
+        Senha= json['data']['Senha'],
+        Admin = json['data']['Admin'] == 'true'? true: false,
+        GrupoId = json['data']['GrupoId'],
+        ApiToken = json['data']['ApiToken'];
+
 
   Map<String, dynamic> toJson() => {
-        'name': nome,
-        'email': email,
-        'senha': senha,
-        'admin': admin,
+        'name': Nome,
+        'email': Email,
+        'senha': Senha,
+        'admin': Admin,
       };
 }

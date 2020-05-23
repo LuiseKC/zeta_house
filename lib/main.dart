@@ -3,10 +3,17 @@ import 'package:zeta_house/pages/login.dart';
 import 'package:zeta_house/pages/new_user.dart';
 import 'package:zeta_house/pages/users.dart';
 
-void main() => runApp(MyApp());
 
+
+void main() async {
+
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -15,7 +22,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Color.fromRGBO(19, 137, 196, 1),
       ),
-      home: NewUser(),
+      home: LoginPage(),
     );
   }
 }

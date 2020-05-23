@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
+import 'dart:io';
+import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -12,11 +16,16 @@ class _LoginPageState extends State<LoginPage> {
   final controllerName = TextEditingController();
   final controllerPassword = TextEditingController();
   final controllerEmail = TextEditingController();
+  ZetaApiClient _client = ZetaApiClient();
+  bool isValid = true;
+  String errorText;
+  String url = 'https://zeta-house.herokuapp.com';
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -52,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     //hintText: 'E-mail',
                     labelText: 'E-mail',
+                    errorText: !isValid? errorText : null,
                     labelStyle: TextStyle(
                       color: Color.fromRGBO(15, 184, 214, 0.7),
                     ),
@@ -81,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: TryLogin,
                   //textColor: Colors.white,
                   padding: EdgeInsets.all(0.0),
                   child: Container(
@@ -121,5 +131,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void TryLogin() {
+    _client.urlApi = url;
+    _client.TryLogin(controllerEmail.text, controllerPassword.text);
   }
 }
