@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/entidade/usuario.dart';
+import 'package:zeta_house/pages/rooms.dart';
+import 'package:zeta_house/pages/users.dart';
 
 class NewUser extends StatefulWidget {
   @override
@@ -16,11 +18,59 @@ class _NewUserState extends State<NewUser> {
 
   final databaseReference = Firestore.instance;
 
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _nameFocus = FocusNode();
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
   @override
   Widget build(BuildContext context) {
     final title = 'Novo Usuário';
     //final ref = fb.reference();
     return Scaffold(
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage('images/zeta.png'),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Usuários'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Users()),
+                );
+              },
+            ),
+            ListTile(
+              title: Text('Cômodos'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Rooms()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text(title),
       ),
@@ -30,7 +80,12 @@ class _NewUserState extends State<NewUser> {
         children: <Widget>[
           Column(
             children: <Widget>[
-              TextField(
+              TextFormField(
+                textInputAction: TextInputAction.next,
+                focusNode: _nameFocus,
+                onFieldSubmitted: (term) {
+                  _fieldFocusChange(context, _nameFocus, _emailFocus);
+                },
                 controller: controllerName,
                 style: TextStyle(
                   color: Color.fromRGBO(15, 184, 214, 1),
@@ -43,7 +98,12 @@ class _NewUserState extends State<NewUser> {
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
+              TextFormField(
+                textInputAction: TextInputAction.next,
+                focusNode: _emailFocus,
+                onFieldSubmitted: (term) {
+                  _fieldFocusChange(context, _emailFocus, _passwordFocus);
+                },
                 controller: controllerEmail,
                 style: TextStyle(
                   color: Color.fromRGBO(15, 184, 214, 1),
@@ -56,7 +116,9 @@ class _NewUserState extends State<NewUser> {
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
+              TextFormField(
+                textInputAction: TextInputAction.done,
+                focusNode: _passwordFocus,
                 controller: controllerPassword,
                 obscureText: true,
                 style: TextStyle(color: Color.fromRGBO(15, 184, 214, 1)),
@@ -96,7 +158,12 @@ class _NewUserState extends State<NewUser> {
                   ),
                 ),
                 onPressed: () {
-                  createRecord(controllerName.text, controllerEmail.text, admin);
+                  createRecord(
+                      controllerName.text, controllerEmail.text, admin);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Users()),
+                  );
                 },
                 borderSide: BorderSide(
                   color: Color.fromRGBO(15, 184, 214, 0.7),
@@ -119,13 +186,11 @@ class _NewUserState extends State<NewUser> {
 //      'description': 'Programming Guide for Dart'
 //    });
 
-    DocumentReference ref = await databaseReference.collection("Usuario")
-        .add({
+    DocumentReference ref = await databaseReference.collection("Usuario").add({
       'nome': nome,
       'email': email,
       'admin': isAdmin,
     });
     print(ref.documentID);
   }
-
 }

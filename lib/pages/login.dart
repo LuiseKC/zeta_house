@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:async';
-import 'dart:io';
 import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 
 class LoginPage extends StatefulWidget {
@@ -21,11 +18,19 @@ class _LoginPageState extends State<LoginPage> {
   String errorText;
   String url = 'https://zeta-house.herokuapp.com';
 
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -43,7 +48,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 30),
-                TextField(
+                TextFormField(
+                  textInputAction: TextInputAction.next,
+                  focusNode: _emailFocus,
+                  onFieldSubmitted: (term) {
+                    _fieldFocusChange(context, _emailFocus, _passwordFocus);
+                  },
                   controller: controllerEmail,
                   style: TextStyle(
                     color: Color.fromRGBO(15, 184, 214, 1),
@@ -68,7 +78,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
+                TextFormField(
+                  textInputAction: TextInputAction.done,
+                  focusNode: _passwordFocus,
                   controller: controllerPassword,
                   obscureText: true,
                   style: TextStyle(color: Color.fromRGBO(15, 184, 214, 1)),

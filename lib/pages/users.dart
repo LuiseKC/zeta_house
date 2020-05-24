@@ -1,176 +1,187 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zeta_house/pages/new_user.dart';
+import 'package:zeta_house/pages/rooms.dart';
 
 class Users extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final title = 'Users';
+  final title = 'Usuários';
+  final userCollection = 'Usuario';
 
+  Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: AssetImage('images/zeta.png'),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Usuários'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('Cômodos'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Rooms()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
       appBar: AppBar(
         title: Text(title),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        padding: const EdgeInsets.all(20.0),
-        children: List.generate(
-          choices.length,
-          (index) {
-            return Center(
-              child: ChoiceCard(choice: choices[index], item: choices[index]),
-            );
+      body: Container(
+        child: StreamBuilder(
+          stream: Firestore.instance
+              .collection(userCollection)
+              .orderBy("Nome")
+              .snapshots(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return usersList(snapshot);
+            } else {
+              return Text("Nenhuma usuário encontrado");
+            }
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(19, 137, 196, 1),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NewUser()),
+          );
+          //showDialogAddMateria(context);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
-}
 
-class Choice {
-  const Choice({this.title, this.icon});
+  usersList(snapshot) {
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      shrinkWrap: true,
+      itemCount: snapshot.data.documents.length,
+      padding: const EdgeInsets.all(5.0),
+      itemBuilder: (context, index) {
+        DocumentSnapshot ds = snapshot.data.documents[index];
+        return Container(
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+          //height: 100,
+          width: double.maxFinite,
+          child: Card(
+            elevation: 5,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+//                  top: BorderSide(
+//                      width: 1.5,
+//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
+//                  bottom: BorderSide(
+//                      width: 1.5,
+//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
+//                  left: BorderSide(
+//                      width: 1.5,
+//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
+//                  right: BorderSide(
+//                      width: 1.5,
+//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
+                    ),
+                color: Color.fromRGBO(26, 58, 128, 0.5),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(7),
+                child: Stack(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Stack(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, top: 5),
+                            child: Column(
+                              children: <Widget>[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  textDirection: TextDirection.ltr,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 25.0, bottom: 25.0),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        ds["Nome"],
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      //    flex: 2
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        ds["Email"],
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      //    flex: 3
+                                    ),
+//                                            Expanded(
+//                                                child: Text(
+//                                                  ds["Admin"].toString(),
+//                                                ),
+//                                                flex: 1),
 
-  final String title;
-  final IconData icon;
-}
-
-//region choices
-const List<Choice> choices = const <Choice>[
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title:
-          'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle. This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle. This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle.',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Car, because its a car. So, it\'s a car',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Car, because its a car. So, it\'s a car',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title:
-          'This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car. This is a Car, because its a car. So, it\'s a car.',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-  const Choice(
-      title: 'This is a Car, because its a car. So, it\'s a car',
-      icon: Icons.directions_car),
-  const Choice(
-      title: 'This is a Bicycle, because its a Bicycle. So, it\'s a Bicycle',
-      icon: Icons.directions_bike),
-  const Choice(
-      title: 'This is a Boat, because its a Boat. So, it\'s a Boat',
-      icon: Icons.directions_boat),
-  const Choice(
-      title: 'This is a Bus, because its a Bus. So, it\'s a Bus',
-      icon: Icons.directions_bus),
-  const Choice(
-      title: 'This is a Train, because its a Train. So, it\'s a Train',
-      icon: Icons.directions_railway),
-  const Choice(
-      title: 'This is a Walk, because its a Walk. So, it\'s a Walk',
-      icon: Icons.directions_walk),
-];
-//endregion
-
-class ChoiceCard extends StatelessWidget {
-  const ChoiceCard(
-      {Key key,
-      this.choice,
-      this.onTap,
-      @required this.item,
-      this.selected: false})
-      : super(key: key);
-
-  final Choice choice;
-  final VoidCallback onTap;
-  final Choice item;
-  final bool selected;
-
-  @override
-  Widget build(BuildContext context) {
-    TextStyle textStyle = Theme.of(context).textTheme.display1;
-    if (selected)
-      textStyle = textStyle.copyWith(color: Colors.lightGreenAccent[400]);
-    return Card(
-      color: Colors.white,
-      child: Row(
-        children: <Widget>[
-          Container(
-              padding: const EdgeInsets.all(8.0),
-              alignment: Alignment.topLeft,
-              child: Icon(
-                choice.icon,
-                size: 80.0,
-                color: Color.fromRGBO(19, 37, 69, 1),
-              )),
-          Expanded(
-            child: new Container(
-              padding: const EdgeInsets.all(10.0),
-              alignment: Alignment.topLeft,
-              child: Text(
-                choice.title,
-                style: TextStyle(
-                  color: Color.fromRGBO(19, 37, 69, 1),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
-                textAlign: TextAlign.left,
-                maxLines: 5,
               ),
             ),
           ),
-        ],
-        crossAxisAlignment: CrossAxisAlignment.start,
-      ),
+        );
+      },
     );
+  }
+
+  deleteData(docId) {
+    Firestore.instance
+        .collection(userCollection)
+        .document(docId)
+        .delete()
+        .catchError((e) {
+      print(e);
+    });
   }
 }
