@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/entidade/usuario.dart';
-import 'package:zeta_house/pages/rooms.dart';
 import 'package:zeta_house/pages/users.dart';
+import 'package:zeta_house/shared/drawer.dart';
 
 class NewUser extends StatefulWidget {
   @override
@@ -31,46 +31,9 @@ class _NewUserState extends State<NewUser> {
   @override
   Widget build(BuildContext context) {
     final title = 'Novo Usuário';
-    //final ref = fb.reference();
+
     return Scaffold(
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Menu'),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('images/zeta.png'),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Usuários'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Users()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Cômodos'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Rooms()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: drawer(context),
       appBar: AppBar(
         title: Text(title),
       ),
@@ -179,18 +142,11 @@ class _NewUserState extends State<NewUser> {
   }
 
   void createRecord(String nome, String email, bool isAdmin) async {
-//    await databaseReference.collection("books")
-//        .document("1")
-//        .setData({
-//      'title': 'Mastering Flutter',
-//      'description': 'Programming Guide for Dart'
-//    });
-
     DocumentReference ref = await databaseReference.collection("Usuario").add({
-      'nome': nome,
-      'email': email,
-      'admin': isAdmin,
+      'Nome': nome,
+      'Email': email,
+      'Admin': isAdmin,
+      'Excluido': false,
     });
-    print(ref.documentID);
   }
 }

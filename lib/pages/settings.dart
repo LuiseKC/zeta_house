@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:zeta_house/pages/users.dart';
+import 'package:zeta_house/shared/drawer.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -10,49 +10,11 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final title = 'Configurações';
-  bool isSwitched = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Text('Menu'),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('images/zeta.png'),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Usuários'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Users()),
-                );
-              },
-            ),
-            ListTile(
-              title: Text('Cômodos'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Users()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: drawer(context),
       appBar: AppBar(
         title: Text(title),
       ),
@@ -60,6 +22,7 @@ class _SettingsState extends State<Settings> {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection("Comodo")
+              .where("Excluido", isEqualTo: false)
               .orderBy("Descricao")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -84,26 +47,30 @@ class _SettingsState extends State<Settings> {
                               const EdgeInsets.only(top: 25.0, bottom: 25.0),
                         ),
                         Expanded(
-                                child: Text(
-                                  ds["Descricao"],
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ),
-                            flex: 5,
-                            ),
+                          child: Text(
+                            ds["Descricao"],
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          flex: 5,
+                        ),
                         Expanded(
-                              flex: 1,
-                              child: Switch(
-                                value: isSwitched,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isSwitched = value;
-                                    print(isSwitched);
-                                  });
-                                },
-                                activeTrackColor: Color.fromRGBO(19, 37, 69, 0.8),
-                                activeColor: Color.fromRGBO(26, 58, 128, 0.8),
-                              ),
-                            ),
+                          flex: 1,
+                          child: Switch(
+                            value: ds["automatico"],
+                            onChanged: (value) {
+                              setState(() {
+                                Firestore.instance
+                                    .collection('Comodo')
+                                    .document(ds.documentID)
+                                    .updateData({
+                                  'automatico': value,
+                                });
+                              });
+                            },
+                            activeTrackColor: Color.fromRGBO(19, 37, 69, 0.8),
+                            activeColor: Color.fromRGBO(26, 58, 128, 0.8),
+                          ),
+                        ),
                       ],
                     );
                     return row;

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/pages/new_user.dart';
-import 'package:zeta_house/pages/rooms.dart';
+import 'package:zeta_house/shared/drawer.dart';
 
 class Users extends StatelessWidget {
   final title = 'Usuários';
@@ -9,40 +9,7 @@ class Users extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('images/zeta.png'),
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Usuários'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              title: Text('Cômodos'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Rooms()),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: drawer(context),
       appBar: AppBar(
         title: Text(title),
       ),
@@ -50,6 +17,7 @@ class Users extends StatelessWidget {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection(userCollection)
+              .where("Excluido", isEqualTo: false)
               .orderBy("Nome")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -156,7 +124,6 @@ class Users extends StatelessWidget {
 //                                                  ds["Admin"].toString(),
 //                                                ),
 //                                                flex: 1),
-
                                   ],
                                 ),
                               ],
