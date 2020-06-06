@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
+import 'package:zeta_house/entidade/action.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -147,6 +148,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void TryLogin() {
     _client.urlApi = url;
-    _client.TryLogin(controllerEmail.text, controllerPassword.text);
+    //_client.TryLogin(controllerEmail.text, controllerPassword.text);
+    _client.HandleAction();
   }
 }

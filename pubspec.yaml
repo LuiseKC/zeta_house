@@ -43,7 +43,6 @@ flutter:
   assets:
     - images/logo_zeta.jpg
     - images/logo_zeta2.png
-    - images/user_img.png
     - images/zeta.png
     #- images/user_img.png
 
