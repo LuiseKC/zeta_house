@@ -25,7 +25,7 @@ dependencies:
   web_socket_channel: ^1.1.0
   socket_io_client: ^0.9.4
   flutter_simple_dependency_injection: ^1.0.1
-  #firebase_messaging:
+  firebase_messaging: ^4.0.0+1
  #   path: ../
   #firebase_core: ^0.4.0       # This dependency was added during initial configuration.
   #cloud_firestore: 0.12.1
