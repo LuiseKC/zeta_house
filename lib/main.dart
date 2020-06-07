@@ -4,10 +4,17 @@ import 'package:zeta_house/pages/new_user.dart';
 import 'package:zeta_house/pages/rooms.dart';
 import 'package:zeta_house/pages/users.dart';
 
-void main() => runApp(MyApp());
 
+
+void main() async {
+
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
