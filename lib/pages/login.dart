@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
+import 'package:zeta_house/entidade/action.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -12,6 +14,19 @@ class _LoginPageState extends State<LoginPage> {
   final controllerName = TextEditingController();
   final controllerPassword = TextEditingController();
   final controllerEmail = TextEditingController();
+  ZetaApiClient _client = ZetaApiClient();
+  bool isValid = true;
+  String errorText;
+  String url = 'https://zeta-house.herokuapp.com';
+
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +49,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 SizedBox(height: 30),
-                TextField(
+                TextFormField(
+                  textInputAction: TextInputAction.next,
+                  focusNode: _emailFocus,
+                  onFieldSubmitted: (term) {
+                    _fieldFocusChange(context, _emailFocus, _passwordFocus);
+                  },
                   controller: controllerEmail,
                   style: TextStyle(
                     color: Color.fromRGBO(15, 184, 214, 1),
@@ -52,13 +72,16 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     //hintText: 'E-mail',
                     labelText: 'E-mail',
+                    errorText: !isValid? errorText : null,
                     labelStyle: TextStyle(
                       color: Color.fromRGBO(15, 184, 214, 0.7),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
+                TextFormField(
+                  textInputAction: TextInputAction.done,
+                  focusNode: _passwordFocus,
                   controller: controllerPassword,
                   obscureText: true,
                   style: TextStyle(color: Color.fromRGBO(15, 184, 214, 1)),
@@ -81,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 RaisedButton(
-                  onPressed: () {},
+                  onPressed: TryLogin,
                   //textColor: Colors.white,
                   padding: EdgeInsets.all(0.0),
                   child: Container(
@@ -121,5 +144,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void TryLogin() {
+    _client.urlApi = url;
+    //_client.TryLogin(controllerEmail.text, controllerPassword.text);
+    _client.HandleAction();
   }
 }

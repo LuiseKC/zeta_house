@@ -1,18 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zeta_house/pages/new_user.dart';
+import 'package:zeta_house/shared/drawer.dart';
 
 class Users extends StatelessWidget {
   final title = 'Usuários';
+  final userCollection = 'Usuario';
 
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawer(context),
       appBar: AppBar(
         title: Text(title),
       ),
       body: Container(
         child: StreamBuilder(
           stream: Firestore.instance
-              .collection("Usuarios")
+              .collection(userCollection)
+              .where("Excluido", isEqualTo: false)
               .orderBy("Nome")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -24,6 +29,21 @@ class Users extends StatelessWidget {
           },
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(19, 137, 196, 1),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => NewUser()),
+          );
+          //showDialogAddMateria(context);
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -56,7 +76,7 @@ class Users extends StatelessWidget {
 //                  right: BorderSide(
 //                      width: 1.5,
 //                      color: ds["Admin"] ? Colors.green : Colors.transparent),
-                ),
+                    ),
                 color: Color.fromRGBO(26, 58, 128, 0.5),
               ),
               child: Padding(
@@ -120,5 +140,15 @@ class Users extends StatelessWidget {
         );
       },
     );
+  }
+
+  deleteData(docId) {
+    Firestore.instance
+        .collection(userCollection)
+        .document(docId)
+        .delete()
+        .catchError((e) {
+      print(e);
+    });
   }
 }

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/entidade/usuario.dart';
+import 'package:zeta_house/pages/users.dart';
+import 'package:zeta_house/shared/drawer.dart';
 
 class NewUser extends StatefulWidget {
   @override
@@ -16,11 +18,22 @@ class _NewUserState extends State<NewUser> {
 
   final databaseReference = Firestore.instance;
 
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
+  final FocusNode _nameFocus = FocusNode();
+
+  _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
+
   @override
   Widget build(BuildContext context) {
     final title = 'Novo Usuário';
-    //final ref = fb.reference();
+
     return Scaffold(
+      drawer: drawer(context),
       appBar: AppBar(
         title: Text(title),
       ),
@@ -30,7 +43,12 @@ class _NewUserState extends State<NewUser> {
         children: <Widget>[
           Column(
             children: <Widget>[
-              TextField(
+              TextFormField(
+                textInputAction: TextInputAction.next,
+                focusNode: _nameFocus,
+                onFieldSubmitted: (term) {
+                  _fieldFocusChange(context, _nameFocus, _emailFocus);
+                },
                 controller: controllerName,
                 style: TextStyle(
                   color: Color.fromRGBO(15, 184, 214, 1),
@@ -43,7 +61,12 @@ class _NewUserState extends State<NewUser> {
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
+              TextFormField(
+                textInputAction: TextInputAction.next,
+                focusNode: _emailFocus,
+                onFieldSubmitted: (term) {
+                  _fieldFocusChange(context, _emailFocus, _passwordFocus);
+                },
                 controller: controllerEmail,
                 style: TextStyle(
                   color: Color.fromRGBO(15, 184, 214, 1),
@@ -56,7 +79,9 @@ class _NewUserState extends State<NewUser> {
                 ),
               ),
               SizedBox(height: 20),
-              TextField(
+              TextFormField(
+                textInputAction: TextInputAction.done,
+                focusNode: _passwordFocus,
                 controller: controllerPassword,
                 obscureText: true,
                 style: TextStyle(color: Color.fromRGBO(15, 184, 214, 1)),
@@ -96,7 +121,12 @@ class _NewUserState extends State<NewUser> {
                   ),
                 ),
                 onPressed: () {
-                  createRecord(controllerName.text, controllerEmail.text, admin);
+                  createRecord(
+                      controllerName.text, controllerEmail.text, admin);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Users()),
+                  );
                 },
                 borderSide: BorderSide(
                   color: Color.fromRGBO(15, 184, 214, 0.7),
@@ -112,20 +142,11 @@ class _NewUserState extends State<NewUser> {
   }
 
   void createRecord(String nome, String email, bool isAdmin) async {
-//    await databaseReference.collection("books")
-//        .document("1")
-//        .setData({
-//      'title': 'Mastering Flutter',
-//      'description': 'Programming Guide for Dart'
-//    });
-
-    DocumentReference ref = await databaseReference.collection("Usuario")
-        .add({
+    DocumentReference ref = await databaseReference.collection("Usuario").add({
       'Nome': nome,
       'Email': email,
       'Admin': isAdmin,
+      'Excluido': false,
     });
-    print(ref.documentID);
   }
-
 }

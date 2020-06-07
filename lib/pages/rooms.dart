@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zeta_house/shared/drawer.dart';
 
 class Rooms extends StatelessWidget {
   final title = 'Cômodos';
 
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawer(context),
       appBar: AppBar(
         title: Text(title),
       ),
@@ -13,6 +15,7 @@ class Rooms extends StatelessWidget {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection("Comodo")
+              .where("Excluido", isEqualTo: false)
               .orderBy("Descricao")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -59,7 +62,7 @@ class Rooms extends StatelessWidget {
                               children: <Widget>[
                                 Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   textDirection: TextDirection.ltr,
                                   children: <Widget>[
@@ -76,20 +79,6 @@ class Rooms extends StatelessWidget {
                                       ),
                                       //    flex: 2
                                     ),
-//                                    Expanded(
-//                                      child: Text(
-//                                        ds["Email"],
-//                                        style: TextStyle(
-//                                          color: Colors.white,
-//                                        ),
-//                                      ),
-//                                      //    flex: 3
-//                                    ),
-//                                            Expanded(
-//                                                child: Text(
-//                                                  ds["Admin"].toString(),
-//                                                ),
-//                                                flex: 1),
                                   ],
                                 ),
                               ],
