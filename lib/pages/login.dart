@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void TryLogin() {
     _client.urlApi = url;
-    //_client.TryLogin(controllerEmail.text, controllerPassword.text);
-    _client.HandleAction();
+    _client.TryLogin(controllerEmail.text, controllerPassword.text);
+    //_client.HandleAction();
   }
 }

@@ -31,9 +31,9 @@ void _fcmSetupBackgroundChannel(
   backgroundChannel.setMethodCallHandler((MethodCall call) async {
     if (call.method == 'handleBackgroundMessage') {
       final CallbackHandle handle =
-      CallbackHandle.fromRawHandle(call.arguments['handle']);
+          CallbackHandle.fromRawHandle(call.arguments['handle']);
       final Function handlerFunction =
-      PluginUtilities.getCallbackFromHandle(handle);
+          PluginUtilities.getCallbackFromHandle(handle);
       try {
         await handlerFunction(
             Map<String, dynamic>.from(call.arguments['message']));
@@ -91,7 +91,7 @@ class FirebaseMessaging {
   }
 
   final StreamController<IosNotificationSettings> _iosSettingsStreamController =
-  StreamController<IosNotificationSettings>.broadcast();
+      StreamController<IosNotificationSettings>.broadcast();
 
   /// Stream that fires when the user changes their notification settings.
   ///
@@ -115,9 +115,9 @@ class FirebaseMessaging {
     if (onBackgroundMessage != null) {
       _onBackgroundMessage = onBackgroundMessage;
       final CallbackHandle backgroundSetupHandle =
-      PluginUtilities.getCallbackHandle(_fcmSetupBackgroundChannel);
+          PluginUtilities.getCallbackHandle(_fcmSetupBackgroundChannel);
       final CallbackHandle backgroundMessageHandle =
-      PluginUtilities.getCallbackHandle(_onBackgroundMessage);
+          PluginUtilities.getCallbackHandle(_onBackgroundMessage);
 
       if (backgroundMessageHandle == null) {
         throw ArgumentError(
@@ -138,7 +138,7 @@ class FirebaseMessaging {
   }
 
   final StreamController<String> _tokenStreamController =
-  StreamController<String>.broadcast();
+      StreamController<String>.broadcast();
 
   /// Fires when a new FCM token is generated.
   Stream<String> get onTokenRefresh {

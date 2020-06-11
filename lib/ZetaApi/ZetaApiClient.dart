@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:io';
@@ -34,6 +35,16 @@ class ZetaApiClient{
       http.Response resp = await http.get(requestUrl, headers: {'authorization': _createHeader(login, senha, true)});
       Map<String, dynamic> json = jsonDecode(resp.body);
       usuarioLogado = Usuario.fromJson(json);
+      requestUrl = urlApi + '/apptoken';
+      String token;
+      FirebaseMessaging().getToken().then((val) {
+        token = val;
+      });
+      resp = await http.get(requestUrl, headers: {'authorization': _createHeader(login, senha, true)});
+      Map<String, dynamic> tokenJson = {
+        'token': token,
+      };
+      resp = await http.post(requestUrl, body: tokenJson);
     }catch(ex){
 
     }
