@@ -22,7 +22,7 @@ class _SettingsState extends State<Settings> {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection("Comodo")
-              .where("Excluido", isEqualTo: false)
+              .where("Excluido", isEqualTo: 0)
               .orderBy("Descricao")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -56,14 +56,14 @@ class _SettingsState extends State<Settings> {
                         Expanded(
                           flex: 1,
                           child: Switch(
-                            value: ds["automatico"],
+                            value: ds["Automatico"],
                             onChanged: (value) {
                               setState(() {
                                 Firestore.instance
                                     .collection('Comodo')
                                     .document(ds.documentID)
                                     .updateData({
-                                  'automatico': value,
+                                  'Automatico': value,
                                 });
                               });
                             },
