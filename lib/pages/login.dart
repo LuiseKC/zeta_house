@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
-import 'package:zeta_house/entidade/action.dart';
+import 'package:zeta_house/pages/home_page.dart';
+import 'package:zeta_house/shared/loading.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -11,6 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
   final controllerName = TextEditingController();
   final controllerPassword = TextEditingController();
   final controllerEmail = TextEditingController();
@@ -72,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     //hintText: 'E-mail',
                     labelText: 'E-mail',
-                    errorText: !isValid? errorText : null,
+                    errorText: !isValid ? errorText : null,
                     labelStyle: TextStyle(
                       color: Color.fromRGBO(15, 184, 214, 0.7),
                     ),
@@ -104,7 +106,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(height: 30),
                 RaisedButton(
-                  onPressed: TryLogin,
+                  onPressed: () {
+                    TryLogin(context);
+                  },
                   //textColor: Colors.white,
                   padding: EdgeInsets.all(0.0),
                   child: Container(
@@ -146,9 +150,51 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void TryLogin() {
-    _client.urlApi = url;
-    _client.TryLogin(controllerEmail.text, controllerPassword.text);
+  // ignore: non_constant_identifier_names
+  Future<void> TryLogin(BuildContext context) async {
+    try {
+      Loading.showLoadingDialog(context, _keyLoader); //invoking login
+      _client.urlApi = url;
+      Map auth =
+          await _client.TryLogin(controllerEmail.text, controllerPassword.text);
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+          .pop(); //close the dialoge
+      if (auth['success']) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else {
+        showAlertDialog(context);
+      }
+    } catch (error) {
+      print(error);
+    }
     //_client.HandleAction();
+  }
+
+  showAlertDialog(BuildContext context) {
+    // configura o button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+    // configura o  AlertDialog
+    AlertDialog alerta = AlertDialog(
+      title: Text("Erro"),
+      content: Text("Login ou senha incorretos."),
+      actions: [
+        okButton,
+      ],
+    );
+    // exibe o dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alerta;
+      },
+    );
   }
 }

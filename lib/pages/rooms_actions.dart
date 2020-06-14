@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/shared/drawer.dart';
 
-class Lights extends StatefulWidget {
+
+class RoomsActions extends StatefulWidget {
+  String sensorID;
+ // RoomsActions(sensorID);
   @override
-  _LightsState createState() => _LightsState();
+  _RoomsActionsState createState() => _RoomsActionsState();
 }
 
-class _LightsState extends State<Lights> {
+class _RoomsActionsState extends State<RoomsActions> {
   final title = 'Acender Luzes';
 
   Widget build(BuildContext context) {
@@ -20,7 +23,8 @@ class _LightsState extends State<Lights> {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection("Comodo")
-              .where("Excluido", isEqualTo: false)
+              .where("Excluido", isEqualTo: 0)
+              .where("Tipo3", isEqualTo: true)
               .orderBy("Descricao")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {

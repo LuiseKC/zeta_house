@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/shared/drawer.dart';
+import 'package:zeta_house/shared/loading.dart';
 
 class Rooms extends StatelessWidget {
   final title = 'Cômodos';
+  final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,21 +14,32 @@ class Rooms extends StatelessWidget {
         title: Text(title),
       ),
       body: Container(
-        child: StreamBuilder(
-          stream: Firestore.instance
-              .collection("Comodo")
-              .where("Excluido", isEqualTo: false)
-              .orderBy("Descricao")
-              .snapshots(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return roomsList(snapshot);
-            } else {
-              return Text("Nenhuma cômodo encontrado");
-            }
-          },
-        ),
+        child: rooms(context),
       ),
+    );
+  }
+
+  loadRooms(BuildContext context) async{
+    Loading.showLoadingDialog(context, _keyLoader);
+    rooms(context);
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+        .pop();
+  }
+
+  Widget rooms(BuildContext context) {
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection("Comodo")
+          .where("Excluido", isEqualTo: 0)
+          .orderBy("Descricao")
+          .snapshots(),
+      builder: (BuildContext context, AsyncSnapshot snapshot){
+        if (snapshot.hasData) {
+          return roomsList(snapshot);
+        } else {
+          return Text("Nenhuma cômodo encontrado");
+        }
+      },
     );
   }
 

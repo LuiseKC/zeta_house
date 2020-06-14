@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 import 'package:zeta_house/pages/rooms.dart';
 import 'package:zeta_house/pages/settings.dart';
 import 'package:zeta_house/pages/users.dart';
 import 'package:zeta_house/shared/drawer.dart';
 
-import 'lights.dart';
+import 'rooms_actions.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatelessWidget {
   final title = 'Zeta House';
+
+  ZetaApiClient _client = ZetaApiClient();
+  String url = 'https://zeta-house.herokuapp.com';
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +98,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Lights()),
+                        MaterialPageRoute(builder: (context) => RoomsActions()),
                       );
                     },
                     child: Card(
@@ -152,4 +157,11 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+//  void TryUser() {
+//    _client.urlApi = url;
+//    _client.user();
+//    print('ok');
+//    //_client.HandleAction();
+//  }
 }

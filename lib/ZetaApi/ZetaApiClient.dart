@@ -29,10 +29,12 @@ class ZetaApiClient{
       return "Bearer $token";
   }
 
-  void TryLogin(String login, String senha) async{
+  // ignore: non_constant_identifier_names
+  Future<Map> TryLogin(String login, String senha) async{
     String requestUrl = urlApi + '/login';
     try{
       http.Response resp = await http.get(requestUrl, headers: {'authorization': _createHeader(login, senha, true)});
+      print(resp.statusCode);
       Map<String, dynamic> json = jsonDecode(resp.body);
       usuarioLogado = Usuario.fromJson(json);
       requestUrl = urlApi + '/apptoken';
@@ -45,8 +47,15 @@ class ZetaApiClient{
         'token': token,
       };
       resp = await http.post(requestUrl, body: tokenJson);
+      print(json);
+      print(json['success']);
+//      if(json['success']){
+//        return true;
+//      }
+//      return false;
+    return json;
     }catch(ex){
-
+      return null;
     }
   }
 
@@ -59,6 +68,31 @@ class ZetaApiClient{
     Map<String, dynamic> json = action.toJson();
     print(json);
     http.Response resp = await http.post(requestUrl, body: json);
+  }
+
+
+  void user() async{
+    String requestUrl = urlApi + '/usuarios';
+    try{
+      print(requestUrl);
+      http.Response resp = await http.get(requestUrl, headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)});
+      Map<String, dynamic> json = jsonDecode(resp.body);
+      usuarioLogado = Usuario.fromJson(json);
+      print(usuarioLogado);
+
+//      requestUrl = urlApi + '/apptoken';
+//      String token;
+//      FirebaseMessaging().getToken().then((val) {
+//        token = val;
+//      });
+//      resp = await http.get(requestUrl, headers: {'authorization': _createHeader(login, senha, true)});
+//      Map<String, dynamic> tokenJson = {
+//        'token': token,
+//      };
+      //resp = await http.post(requestUrl, body: json);
+    }catch(ex){
+
+    }
   }
 
 
