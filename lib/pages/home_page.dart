@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions()),
+                        MaterialPageRoute(builder: (context) => RoomsActions('Tipo1')),
                       );
                     },
                     child: Card(
@@ -112,7 +112,71 @@ class HomePage extends StatelessWidget {
                         children: <Widget>[
                           ListTile(
                             leading: Icon(Icons.home, size: 50),
-                            title: Text('Acender Luzes',
+                            title: Text('Lâmpada',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  //padding: EdgeInsets.all(5.0),
+                  width: 190,
+                  height: 80,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RoomsActions('Tipo2')),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Color.fromRGBO(26, 58, 128, 0.8),
+                      elevation: 10,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.settings, size: 50),
+                            title: Text('Automação',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  width: 190,
+                  height: 80,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RoomsActions('Tipo3')),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Color.fromRGBO(26, 58, 128, 0.8),
+                      elevation: 10,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.home, size: 50),
+                            title: Text('Segurança',
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ],

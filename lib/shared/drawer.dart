@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zeta_house/pages/home_page.dart';
 import 'package:zeta_house/pages/login.dart';
 import 'package:zeta_house/pages/rooms.dart';
+import 'package:zeta_house/pages/rooms_actions.dart';
 import 'package:zeta_house/pages/settings.dart';
 import 'package:zeta_house/pages/users.dart';
 
@@ -50,6 +51,33 @@ Widget drawer(context) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Rooms()),
+            );
+          },
+        ),
+        ListTile(
+          title: Text('Lâmpadas'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RoomsActions('Tipo1')),
+            );
+          },
+        ),
+        ListTile(
+          title: Text('Automação'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RoomsActions('Tipo2')),
+            );
+          },
+        ),
+        ListTile(
+          title: Text('Segurança'),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RoomsActions('Tipo3')),
             );
           },
         ),
