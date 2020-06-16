@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 import 'package:zeta_house/shared/drawer.dart';
+import 'package:http/http.dart' as http;
+import 'package:zeta_house/entidade/action.dart' as doAction;
 
 // ignore: must_be_immutable
 class RoomsActions extends StatefulWidget {
@@ -16,6 +19,11 @@ class _RoomsActionsState extends State<RoomsActions> {
   String tipoID;
 
   _RoomsActionsState(this.tipoID);
+
+  ZetaApiClient _client = ZetaApiClient();
+  bool isValid = true;
+  String errorText;
+  String urlApi = 'https://zeta-house.herokuapp.com';
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +86,9 @@ class _RoomsActionsState extends State<RoomsActions> {
                                   .updateData({
                                 'Ativado': value ? 1 : 0,
                               });
+                              if(value){
+                                ativarSensores(ds['SensorID'].toString(), value);
+                              }
                             });
                           },
                           activeTrackColor: Color.fromRGBO(19, 37, 69, 0.8),
@@ -109,4 +120,56 @@ class _RoomsActionsState extends State<RoomsActions> {
       }
     }
   }
+
+  void ativarSensores(sensorID, on){
+    if (tipoID == '1') {
+      ativarLuz(sensorID, on);
+    } else {
+      if (tipoID == '2') {
+        //
+      } else {
+        //
+      }
+    }
+  }
+
+  void ativarLuz (sensorID, on) async {
+    //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
+    doAction.Action action = doAction.Action();
+    if(on){
+      action.Type = doAction.ActionType.LIGHT_ON;
+    }
+    else{
+      action.Type = doAction.ActionType.LIGHT_OFF;
+    }
+    action.Id = sensorID;
+    String requestUrl = urlApi + '/action';
+    Map<String, dynamic> json = action.toJson();
+    print(json);
+    http.Response resp = await http.post(requestUrl, body: json);
+    print(resp);
+  }
+
+//  Future<void> TryLogin(BuildContext context) async {
+//    try {
+//      _client.urlApi = url;
+//      Map auth =
+//      _client.HandleAction();
+//      Navigator.of(_keyLoader.currentContext, rootNavigator: true)
+//          .pop(); //close the dialoge
+//      if (auth['success']) {
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute(builder: (context) => HomePage()),
+//        );
+//      } else {
+//        showAlertDialog(context);
+//      }
+//    } catch (error) {
+//      print(error);
+//    }
+//    //_client.HandleAction();
+//  }
+
+
 }
