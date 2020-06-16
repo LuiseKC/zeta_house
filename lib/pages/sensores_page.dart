@@ -1,28 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/shared/drawer.dart';
 
-class Settings extends StatefulWidget {
+// ignore: must_be_immutable
+class SensoresPage extends StatefulWidget {
+  String comodoID;
+  String comodoDescricao;
+
+  SensoresPage(this.comodoID, this.comodoDescricao);
+
   @override
-  _SettingsState createState() => _SettingsState();
+  _SensoresPageState createState() => _SensoresPageState(this.comodoID, this.comodoDescricao);
 }
 
-class _SettingsState extends State<Settings> {
-  final title = 'Configurações';
+class _SensoresPageState extends State<SensoresPage> {
+  String comodoID;
+  String comodoDescricao;
+
+  _SensoresPageState(this.comodoID, this.comodoDescricao);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: drawer(context),
       appBar: AppBar(
-        title: Text(title),
+        title: Text(comodoDescricao),
       ),
       body: Container(
         child: StreamBuilder(
           stream: Firestore.instance
-              .collection("Comodo")
-              .where("Excluido", isEqualTo: 0)
+              .collection("Sensor")
+              .where("Excluido", isEqualTo: "false")
+              .where("ComodoID", isEqualTo: comodoID)
               .orderBy("Descricao")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -50,19 +59,26 @@ class _SettingsState extends State<Settings> {
                           ds["Descricao"],
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        flex: 5,
+                        flex: 2,
+                      ),
+                      Expanded(
+                        child: Text(
+                          ds["ComodoDescricao"],
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        flex: 3,
                       ),
                       Expanded(
                         flex: 1,
                         child: Switch(
-                          value: ds["Automatico"],
+                          value: ds["Ativado"] == 1 ? true : false,
                           onChanged: (value) {
                             setState(() {
                               Firestore.instance
-                                  .collection('Comodo')
+                                  .collection('Sensor')
                                   .document(ds.documentID)
                                   .updateData({
-                                'Automatico': value,
+                                'Ativado': value ? 1 : 0,
                               });
                             });
                           },
@@ -76,7 +92,7 @@ class _SettingsState extends State<Settings> {
                 },
               );
             } else {
-              return Text("Nenhuma tarefa encontrada");
+              return Text("Carregando...");
             }
           },
         ),

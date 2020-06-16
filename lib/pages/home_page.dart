@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions('Tipo1')),
+                        MaterialPageRoute(builder: (context) => RoomsActions('1')),
                       );
                     },
                     child: Card(
@@ -128,7 +128,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions('Tipo2')),
+                        MaterialPageRoute(builder: (context) => RoomsActions('2')),
                       );
                     },
                     child: Card(
@@ -141,7 +141,7 @@ class HomePage extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           ListTile(
-                            leading: Icon(Icons.settings, size: 50),
+                            leading: Icon(Icons.home, size: 50),
                             title: Text('Automação',
                                 style: TextStyle(color: Colors.white)),
                           ),
@@ -162,7 +162,7 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions('Tipo3')),
+                        MaterialPageRoute(builder: (context) => RoomsActions('3')),
                       );
                     },
                     child: Card(
