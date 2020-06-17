@@ -10,7 +10,8 @@ class SensoresPage extends StatefulWidget {
   SensoresPage(this.comodoID, this.comodoDescricao);
 
   @override
-  _SensoresPageState createState() => _SensoresPageState(this.comodoID, this.comodoDescricao);
+  _SensoresPageState createState() =>
+      _SensoresPageState(this.comodoID, this.comodoDescricao);
 }
 
 class _SensoresPageState extends State<SensoresPage> {
@@ -30,7 +31,7 @@ class _SensoresPageState extends State<SensoresPage> {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection("Sensor")
-              .where("Excluido", isEqualTo: "false")
+              .where("Excluido", isEqualTo: false)
               .where("ComodoID", isEqualTo: comodoID)
               .orderBy("Descricao")
               .snapshots(),
