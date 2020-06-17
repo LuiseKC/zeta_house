@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => RoomsActions('3')),
+                            builder: (context) => RoomsActions('5')),
                       );
                     },
                     child: Card(
@@ -373,7 +373,7 @@ class _HomePageState extends State<HomePage> {
                                       children: <Widget>[
                                         Center(
                                           child: Text(
-                                            "60%",
+                                            ds["Umid"] + "%",
                                             style: TextStyle(fontSize: 50),
                                           ),
                                           //flex: 5,

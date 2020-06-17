@@ -114,7 +114,9 @@ class _RoomsActionsState extends State<RoomsActions> {
       if (tipoID == '2') {
         return Text('Automação');
       } else {
-        return Text('Segurança');
+        if (tipoID == '5') {
+          return Text('Segurança');
+        }
       }
     }
   }
@@ -130,7 +132,7 @@ class _RoomsActionsState extends State<RoomsActions> {
               abrirPortao(sensorID, on);
             }
             break;
-          case '14': //todo
+          case '101':
             {
               abrirPorta(sensorID, on);
             }
@@ -145,6 +147,7 @@ class _RoomsActionsState extends State<RoomsActions> {
               ligarVentilador(sensorID, on);
             }
             break;
+
           default:
             {
               //statements;
@@ -152,7 +155,9 @@ class _RoomsActionsState extends State<RoomsActions> {
             break;
         }
       } else {
-        //
+        if (tipoID == '5') {
+          ligarSeguranca(sensorID, on);
+        }
       }
     }
   }
@@ -237,6 +242,22 @@ class _RoomsActionsState extends State<RoomsActions> {
     http.Response resp = await http.post(requestUrl, body: json);
     print(resp);
     print(resp.statusCode);
+  }
+
+  void ligarSeguranca(sensorID, on) async {
+    //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
+    doAction.Action action = doAction.Action();
+    if (on) {
+      action.Type = doAction.ActionType.SECURITY_ON;
+    } else {
+      action.Type = doAction.ActionType.SECURITY_OFF;
+    }
+    action.Id = sensorID;
+    String requestUrl = urlApi + '/action';
+    Map<String, dynamic> json = action.toJson();
+    print(json);
+    http.Response resp = await http.post(requestUrl, body: json);
+    print(resp);
   }
 
 //  Future<void> TryLogin(BuildContext context) async {
