@@ -29,7 +29,7 @@ class Usuario {
         Email= json['data']['Email'],
         Senha= json['data']['Senha'],
         Admin = json['data']['Admin'] == 'true'? true: false,
-        GrupoId = json['data']['GrupoId'],
+        GrupoId = json['data']['GrupoId'].toString(),
         ApiToken = json['data']['ApiToken'];
 
 

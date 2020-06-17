@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 import 'package:zeta_house/pages/rooms.dart';
@@ -13,6 +14,9 @@ class HomePage extends StatelessWidget {
 
   ZetaApiClient _client = ZetaApiClient();
   String url = 'https://zeta-house.herokuapp.com';
+
+  final Stream databaseReference =
+      Firestore.instance.collection("Temperatura").orderBy("Data", descending: true).limit(1).snapshots();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +102,8 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions('1')),
+                        MaterialPageRoute(
+                            builder: (context) => RoomsActions('1')),
                       );
                     },
                     child: Card(
@@ -128,7 +133,8 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions('2')),
+                        MaterialPageRoute(
+                            builder: (context) => RoomsActions('2')),
                       );
                     },
                     child: Card(
@@ -162,7 +168,8 @@ class HomePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RoomsActions('3')),
+                        MaterialPageRoute(
+                            builder: (context) => RoomsActions('3')),
                       );
                     },
                     child: Card(
@@ -207,6 +214,70 @@ class HomePage extends StatelessWidget {
                           ListTile(
                             leading: Icon(Icons.settings, size: 50),
                             title: Text('Configurações',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 50),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  width: 190,
+                  height: 230,
+                  child: GestureDetector(
+                    onTap: () {
+                      //print(databaseReference.toList());
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Color.fromRGBO(26, 58, 128, 0.8),
+                      elevation: 10,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.home, size: 50),
+                            title: Text('Temperatura',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                          Text("Teste"),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  //padding: EdgeInsets.all(5.0),
+                  width: 190,
+                  height: 230,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RoomsActions('2')),
+                      );
+                    },
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      color: Color.fromRGBO(26, 58, 128, 0.8),
+                      elevation: 10,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: Icon(Icons.home, size: 50),
+                            title: Text('Umidade',
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ],

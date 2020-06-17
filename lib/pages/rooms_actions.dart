@@ -126,7 +126,24 @@ class _RoomsActionsState extends State<RoomsActions> {
       ativarLuz(sensorID, on);
     } else {
       if (tipoID == '2') {
-        //
+        switch(sensorID) {
+          case '15': {
+            abrirPortao(sensorID, on);
+          }
+          break;
+          case '14': {
+            abrirPorta(sensorID, on);
+          }
+          break;
+          case '16': {
+            abrirJanela(sensorID, on);
+          }
+          break;
+          default: {
+            //statements;
+          }
+          break;
+        }
       } else {
         //
       }
@@ -141,6 +158,57 @@ class _RoomsActionsState extends State<RoomsActions> {
     }
     else{
       action.Type = doAction.ActionType.LIGHT_OFF;
+    }
+    action.Id = sensorID;
+    String requestUrl = urlApi + '/action';
+    Map<String, dynamic> json = action.toJson();
+    print(json);
+    http.Response resp = await http.post(requestUrl, body: json);
+    print(resp);
+  }
+
+  void abrirPortao (sensorID, on) async {
+    //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
+    doAction.Action action = doAction.Action();
+    if(on){
+      action.Type = doAction.ActionType.OPEN_GATE;
+    }
+    else{
+      action.Type = doAction.ActionType.CLOSE_GATE;
+    }
+    action.Id = sensorID;
+    String requestUrl = urlApi + '/action';
+    Map<String, dynamic> json = action.toJson();
+    print(json);
+    http.Response resp = await http.post(requestUrl, body: json);
+    print(resp);
+  }
+
+  void abrirPorta (sensorID, on) async {
+    //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
+    doAction.Action action = doAction.Action();
+    if(on){
+      action.Type = doAction.ActionType.OPEN_DOOR;
+    }
+    else{
+      action.Type = doAction.ActionType.CLOSE_DOOR;
+    }
+    action.Id = sensorID;
+    String requestUrl = urlApi + '/action';
+    Map<String, dynamic> json = action.toJson();
+    print(json);
+    http.Response resp = await http.post(requestUrl, body: json);
+    print(resp);
+  }
+
+  void abrirJanela (sensorID, on) async {
+    //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
+    doAction.Action action = doAction.Action();
+    if(on){
+      action.Type = doAction.ActionType.OPEN_WINDOW;
+    }
+    else{
+      action.Type = doAction.ActionType.CLOSE_WINDOW;
     }
     action.Id = sensorID;
     String requestUrl = urlApi + '/action';

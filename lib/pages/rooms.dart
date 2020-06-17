@@ -40,10 +40,15 @@ class _RoomsState extends State<Rooms> {
                 itemBuilder: (context, index) {
                   DocumentSnapshot ds = snapshot.data.documents[index];
                   return GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SensoresPage(ds["ComodoID"].toString(), ds["Descricao"].toString())),
+                        MaterialPageRoute(
+                          builder: (context) => SensoresPage(
+                            ds["ComodoID"].toString(),
+                            ds["Descricao"].toString(),
+                          ),
+                        ),
                       );
                     },
                     child: Row(
@@ -52,7 +57,8 @@ class _RoomsState extends State<Rooms> {
                       textDirection: TextDirection.ltr,
                       children: <Widget>[
                         Padding(
-                          padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
+                          padding:
+                              const EdgeInsets.only(top: 25.0, bottom: 25.0),
                         ),
                         Expanded(
                           child: Text(
@@ -407,4 +413,3 @@ class Item {
   String headerValue;
   bool isExpanded;
 }
-

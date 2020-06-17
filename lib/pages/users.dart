@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:zeta_house/pages/new_user.dart';
 import 'package:zeta_house/shared/drawer.dart';
 
+import 'edit_user.dart';
+
 class Users extends StatelessWidget {
   final title = 'Usuários';
   final userCollection = 'Usuario';
@@ -17,14 +19,13 @@ class Users extends StatelessWidget {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection(userCollection)
-              .where("Excluido", isEqualTo: false)
               .orderBy("Nome")
               .snapshots(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return usersList(snapshot);
             } else {
-              return Text("Nenhuma usuário encontrado");
+              return Text("Carregando");
             }
           },
         ),
@@ -59,80 +60,70 @@ class Users extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
           //height: 100,
           width: double.maxFinite,
-          child: Card(
-            elevation: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-//                  top: BorderSide(
-//                      width: 1.5,
-//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
-//                  bottom: BorderSide(
-//                      width: 1.5,
-//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
-//                  left: BorderSide(
-//                      width: 1.5,
-//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
-//                  right: BorderSide(
-//                      width: 1.5,
-//                      color: ds["Admin"] ? Colors.green : Colors.transparent),
-                    ),
-                color: Color.fromRGBO(26, 58, 128, 0.5),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(7),
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Stack(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10, top: 5),
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  textDirection: TextDirection.ltr,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 25.0, bottom: 25.0),
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        ds["Nome"],
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                        ),
+          child: GestureDetector(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditUser(ds)),
+              );
+            },
+            child: Card(
+              elevation: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(),
+                  color: Color.fromRGBO(26, 58, 128, 0.5),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(7),
+                  child: Stack(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Stack(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10, top: 5),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    textDirection: TextDirection.ltr,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 25.0, bottom: 25.0),
                                       ),
-                                      //    flex: 2
-                                    ),
-                                    Expanded(
-                                      child: Text(
-                                        ds["Email"],
-                                        style: TextStyle(
-                                          color: Colors.white,
+                                      Expanded(
+                                        child: Text(
+                                          ds["Nome"],
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
+                                        //    flex: 2
                                       ),
-                                      //    flex: 3
-                                    ),
-//                                            Expanded(
-//                                                child: Text(
-//                                                  ds["Admin"].toString(),
-//                                                ),
-//                                                flex: 1),
-                                  ],
-                                ),
-                              ],
+                                      Expanded(
+                                        child: Text(
+                                          ds["Email"],
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        //    flex: 3
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

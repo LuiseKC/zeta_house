@@ -28,6 +28,12 @@ class ActionType {
   static const String LIGHT_OFF = 'LIGHT_OFF';
   static const String SECURITY_ON = 'SECURITY_ON';
   static const String SECURITY_OFF = 'SECURITY_OFF';
+  static const String OPEN_WINDOW = 'OPEN_WINDOW';
+  static const String CLOSE_WINDOW = 'CLOSE_WINDOW';
+  static const String OPEN_GATE = 'OPEN_GATE';
+  static const String CLOSE_GATE = 'CLOSE_GATE';
+  static const String OPEN_DOOR = 'OPEN_DOOR';
+  static const String CLOSE_DOOR = 'CLOSE_DOOR';
 
 }
 
