@@ -86,7 +86,6 @@ class _RoomsActionsState extends State<RoomsActions> {
                                   .updateData({
                                 'Ativado': value ? 1 : 0,
                               });
-
                               ativarSensores(ds['SensorID'].toString(), value);
                             });
                           },
@@ -126,19 +125,24 @@ class _RoomsActionsState extends State<RoomsActions> {
     } else {
       if (tipoID == '2') {
         switch (sensorID) {
-          case '15':
+          case '21':
             {
               abrirPortao(sensorID, on);
             }
             break;
-          case '14':
+          case '14': //todo
             {
               abrirPorta(sensorID, on);
             }
             break;
-          case '16':
+          case '13':
             {
               abrirJanela(sensorID, on);
+            }
+            break;
+          case '22':
+            {
+              ligarVentilador(sensorID, on);
             }
             break;
           default:
@@ -202,6 +206,22 @@ class _RoomsActionsState extends State<RoomsActions> {
     print(resp);
   }
 
+  void ligarVentilador(sensorID, on) async {
+    //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
+    doAction.Action action = doAction.Action();
+    if (on) {
+      action.Type = doAction.ActionType.FAN_ON;
+    } else {
+      action.Type = doAction.ActionType.FAN_OFF;
+    }
+    action.Id = sensorID;
+    String requestUrl = urlApi + '/action';
+    Map<String, dynamic> json = action.toJson();
+    print(json);
+    http.Response resp = await http.post(requestUrl, body: json);
+    print(resp);
+  }
+
   void abrirJanela(sensorID, on) async {
     //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
     doAction.Action action = doAction.Action();
@@ -216,6 +236,7 @@ class _RoomsActionsState extends State<RoomsActions> {
     print(json);
     http.Response resp = await http.post(requestUrl, body: json);
     print(resp);
+    print(resp.statusCode);
   }
 
 //  Future<void> TryLogin(BuildContext context) async {

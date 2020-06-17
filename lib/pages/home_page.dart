@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 import 'package:zeta_house/pages/rooms.dart';
@@ -8,16 +9,31 @@ import 'package:zeta_house/shared/drawer.dart';
 
 import 'rooms_actions.dart';
 
-// ignore: must_be_immutable
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final title = 'Zeta House';
 
   ZetaApiClient _client = ZetaApiClient();
   String url = 'https://zeta-house.herokuapp.com';
 
-  final Stream databaseReference =
-      Firestore.instance.collection("Temperatura").orderBy("Data", descending: true).limit(1).snapshots();
+  final Stream databaseReference = Firestore.instance
+      .collection("Temperatura")
+      .orderBy("Data", descending: true)
+      .limit(1)
+      .snapshots();
 
+  var _value = 20.0;
+
+//  @override
+//  void initState() {
+//
+//    super.initState();
+//  }
+//
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: drawer(context),
@@ -229,7 +245,7 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   width: 190,
-                  height: 230,
+                  height: 200,
                   child: GestureDetector(
                     onTap: () {
                       //print(databaseReference.toList());
@@ -248,7 +264,54 @@ class HomePage extends StatelessWidget {
                             title: Text('Temperatura',
                                 style: TextStyle(color: Colors.white)),
                           ),
-                          Text("Teste"),
+                          SizedBox(height: 20),
+                          StreamBuilder(
+                            stream: Firestore.instance
+                                .collection("Temperatura")
+                                .orderBy("Data", descending: true)
+                                .limit(1)
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  separatorBuilder: (context, index) => Divider(
+                                    color: Color.fromRGBO(19, 137, 196, 0.5),
+                                  ),
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.documents.length,
+                                  padding: const EdgeInsets.all(5.0),
+                                  itemBuilder: (context, index) {
+                                    DocumentSnapshot ds =
+                                        snapshot.data.documents[index];
+                                    Row row = Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      textDirection: TextDirection.ltr,
+                                      children: <Widget>[
+//                                        Padding(
+//                                          padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
+//                                        ),
+                                        Center(
+                                          child: Text(
+                                            ds["Temperatura"] + "°C",
+                                            style: TextStyle(fontSize: 50),
+                                          ),
+                                          //flex: 5,
+                                        ),
+                                      ],
+                                    );
+                                    return row;
+                                  },
+                                );
+                              } else {
+                                return Text("Carregando");
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -257,7 +320,7 @@ class HomePage extends StatelessWidget {
                 Container(
                   //padding: EdgeInsets.all(5.0),
                   width: 190,
-                  height: 230,
+                  height: 200,
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -280,6 +343,51 @@ class HomePage extends StatelessWidget {
                             title: Text('Umidade',
                                 style: TextStyle(color: Colors.white)),
                           ),
+                          SizedBox(height: 20),
+                          StreamBuilder(
+                            stream: Firestore.instance
+                                .collection("Temperatura")
+                                .orderBy("Data", descending: true)
+                                .limit(1)
+                                .snapshots(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.separated(
+                                  scrollDirection: Axis.vertical,
+                                  separatorBuilder: (context, index) => Divider(
+                                    color: Color.fromRGBO(19, 137, 196, 0.5),
+                                  ),
+                                  shrinkWrap: true,
+                                  itemCount: snapshot.data.documents.length,
+                                  padding: const EdgeInsets.all(5.0),
+                                  itemBuilder: (context, index) {
+                                    DocumentSnapshot ds =
+                                        snapshot.data.documents[index];
+                                    Row row = Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      textDirection: TextDirection.ltr,
+                                      children: <Widget>[
+                                        Center(
+                                          child: Text(
+                                            "60%",
+                                            style: TextStyle(fontSize: 50),
+                                          ),
+                                          //flex: 5,
+                                        ),
+                                      ],
+                                    );
+                                    return row;
+                                  },
+                                );
+                              } else {
+                                return Text("Carregando");
+                              }
+                            },
+                          ),
                         ],
                       ),
                     ),
@@ -292,11 +400,4 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
-
-//  void TryUser() {
-//    _client.urlApi = url;
-//    _client.user();
-//    print('ok');
-//    //_client.HandleAction();
-//  }
 }

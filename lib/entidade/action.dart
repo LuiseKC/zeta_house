@@ -34,6 +34,9 @@ class ActionType {
   static const String CLOSE_GATE = 'CLOSE_GATE';
   static const String OPEN_DOOR = 'OPEN_DOOR';
   static const String CLOSE_DOOR = 'CLOSE_DOOR';
+  static const String FAN_ON = 'FAN_ON';
+  static const String FAN_OFF = 'FAN_OFF';
+
 
 }
 
