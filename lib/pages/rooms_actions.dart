@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
-import 'package:zeta_house/shared/drawer.dart';
 import 'package:http/http.dart' as http;
+import 'package:zeta_house/ZetaApi/ZetaApiClient.dart';
 import 'package:zeta_house/entidade/action.dart' as doAction;
+import 'package:zeta_house/shared/drawer.dart';
 
 // ignore: must_be_immutable
 class RoomsActions extends StatefulWidget {
@@ -86,9 +86,8 @@ class _RoomsActionsState extends State<RoomsActions> {
                                   .updateData({
                                 'Ativado': value ? 1 : 0,
                               });
-                              if(value){
-                                ativarSensores(ds['SensorID'].toString(), value);
-                              }
+
+                              ativarSensores(ds['SensorID'].toString(), value);
                             });
                           },
                           activeTrackColor: Color.fromRGBO(19, 37, 69, 0.8),
@@ -121,28 +120,32 @@ class _RoomsActionsState extends State<RoomsActions> {
     }
   }
 
-  void ativarSensores(sensorID, on){
+  void ativarSensores(sensorID, on) {
     if (tipoID == '1') {
       ativarLuz(sensorID, on);
     } else {
       if (tipoID == '2') {
-        switch(sensorID) {
-          case '15': {
-            abrirPortao(sensorID, on);
-          }
-          break;
-          case '14': {
-            abrirPorta(sensorID, on);
-          }
-          break;
-          case '16': {
-            abrirJanela(sensorID, on);
-          }
-          break;
-          default: {
-            //statements;
-          }
-          break;
+        switch (sensorID) {
+          case '15':
+            {
+              abrirPortao(sensorID, on);
+            }
+            break;
+          case '14':
+            {
+              abrirPorta(sensorID, on);
+            }
+            break;
+          case '16':
+            {
+              abrirJanela(sensorID, on);
+            }
+            break;
+          default:
+            {
+              //statements;
+            }
+            break;
         }
       } else {
         //
@@ -150,14 +153,14 @@ class _RoomsActionsState extends State<RoomsActions> {
     }
   }
 
-  void ativarLuz (sensorID, on) async {
+  void ativarLuz(sensorID, on) async {
     //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
     doAction.Action action = doAction.Action();
-    if(on){
+    if (on) {
       action.Type = doAction.ActionType.LIGHT_ON;
-    }
-    else{
+    } else {
       action.Type = doAction.ActionType.LIGHT_OFF;
+      print("teste");
     }
     action.Id = sensorID;
     String requestUrl = urlApi + '/action';
@@ -167,13 +170,12 @@ class _RoomsActionsState extends State<RoomsActions> {
     print(resp);
   }
 
-  void abrirPortao (sensorID, on) async {
+  void abrirPortao(sensorID, on) async {
     //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
     doAction.Action action = doAction.Action();
-    if(on){
+    if (on) {
       action.Type = doAction.ActionType.OPEN_GATE;
-    }
-    else{
+    } else {
       action.Type = doAction.ActionType.CLOSE_GATE;
     }
     action.Id = sensorID;
@@ -184,13 +186,12 @@ class _RoomsActionsState extends State<RoomsActions> {
     print(resp);
   }
 
-  void abrirPorta (sensorID, on) async {
+  void abrirPorta(sensorID, on) async {
     //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
     doAction.Action action = doAction.Action();
-    if(on){
+    if (on) {
       action.Type = doAction.ActionType.OPEN_DOOR;
-    }
-    else{
+    } else {
       action.Type = doAction.ActionType.CLOSE_DOOR;
     }
     action.Id = sensorID;
@@ -201,13 +202,12 @@ class _RoomsActionsState extends State<RoomsActions> {
     print(resp);
   }
 
-  void abrirJanela (sensorID, on) async {
+  void abrirJanela(sensorID, on) async {
     //headers: {'authorization': _createHeader('','', false, usuarioLogado.ApiToken)}
     doAction.Action action = doAction.Action();
-    if(on){
+    if (on) {
       action.Type = doAction.ActionType.OPEN_WINDOW;
-    }
-    else{
+    } else {
       action.Type = doAction.ActionType.CLOSE_WINDOW;
     }
     action.Id = sensorID;
@@ -238,6 +238,5 @@ class _RoomsActionsState extends State<RoomsActions> {
 //    }
 //    //_client.HandleAction();
 //  }
-
 
 }
