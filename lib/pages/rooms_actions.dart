@@ -36,7 +36,7 @@ class _RoomsActionsState extends State<RoomsActions> {
         child: StreamBuilder(
           stream: Firestore.instance
               .collection("Sensor")
-              .where("Excluido", isEqualTo: "false")
+              .where("Excluido", isEqualTo: false)
               .where("TipoID", isEqualTo: tipoID)
               .orderBy("ComodoDescricao")
               .snapshots(),
