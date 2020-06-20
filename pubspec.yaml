@@ -27,11 +27,6 @@ dependencies:
   flutter_simple_dependency_injection: ^1.0.1
   firebase_messaging: ^4.0.0+1
   flip_card: 0.4.4
- #   path: ../
-  #firebase_core: ^0.4.0       # This dependency was added during initial configuration.
-  #cloud_firestore: 0.12.1
-  #\\\\\\\\cloud_firestore: ^0.11.0+2\\\\\\\\\\\\
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
