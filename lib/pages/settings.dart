@@ -14,8 +14,6 @@ class _SettingsState extends State<Settings> {
 
   String urlApi = 'https://zeta-house.herokuapp.com';
 
-  bool aparecerTemp = false;
-
   bool sensorChuva;
   bool sensorGas;
   double temp = 20;
@@ -166,109 +164,6 @@ class _SettingsState extends State<Settings> {
           )
         ],
       ),
-    );
-  }
-
-  Widget configTemp() {
-    if (aparecerTemp) {
-      return SliderTheme(
-        data: SliderTheme.of(context).copyWith(
-          activeTrackColor: Colors.blue[700],
-          inactiveTrackColor: Colors.blue[100],
-          trackShape: RoundedRectSliderTrackShape(),
-          trackHeight: 4.0,
-          thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-          thumbColor: Colors.blueAccent,
-          overlayColor: Colors.blue.withAlpha(32),
-          overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-          tickMarkShape: RoundSliderTickMarkShape(),
-          activeTickMarkColor: Colors.blue[700],
-          inactiveTickMarkColor: Colors.blue[100],
-          valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-          valueIndicatorColor: Colors.blueAccent,
-          valueIndicatorTextStyle: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        child: Slider(
-          value: temp,
-          min: 10,
-          max: 35,
-          divisions: 25,
-          label: '$temp',
-          onChanged: (value) {
-            setState(
-              () {
-                temp = value;
-              },
-            );
-          },
-        ),
-      );
-    } else
-      return null;
-  }
-
-  Future<Null> showAlertDialog(BuildContext context, _value) async {
-    // configura o button
-    Widget okButton = FlatButton(
-      child: Text("OK"),
-      onPressed: () {
-        Navigator.pop(context, _value);
-        //Navigator.of(context, rootNavigator: true).pop();
-      },
-    );
-    // configura o  AlertDialog
-    AlertDialog alerta = AlertDialog(
-      title: Text("Temperatura em °C"),
-      content: Container(
-        width: 300,
-        height: 100,
-        child: SliderTheme(
-          data: SliderTheme.of(context).copyWith(
-            activeTrackColor: Colors.blue[700],
-            inactiveTrackColor: Colors.blue[100],
-            trackShape: RoundedRectSliderTrackShape(),
-            trackHeight: 4.0,
-            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
-            thumbColor: Colors.blueAccent,
-            overlayColor: Colors.blue.withAlpha(32),
-            overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
-            tickMarkShape: RoundSliderTickMarkShape(),
-            activeTickMarkColor: Colors.blue[700],
-            inactiveTickMarkColor: Colors.blue[100],
-            valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-            valueIndicatorColor: Colors.blueAccent,
-            valueIndicatorTextStyle: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          child: Slider(
-            value: _value,
-            min: 10,
-            max: 35,
-            divisions: 25,
-            label: '$_value',
-            onChanged: (value) {
-              setState(
-                () {
-                  _value = value;
-                },
-              );
-            },
-          ),
-        ),
-      ),
-      actions: [
-        okButton,
-      ],
-    );
-    // exibe o dialog
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alerta;
-      },
     );
   }
 

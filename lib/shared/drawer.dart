@@ -59,7 +59,7 @@ Widget drawer(context) {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RoomsActions('Tipo1')),
+              MaterialPageRoute(builder: (context) => RoomsActions('1')),
             );
           },
         ),
@@ -68,7 +68,7 @@ Widget drawer(context) {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RoomsActions('Tipo2')),
+              MaterialPageRoute(builder: (context) => RoomsActions('2')),
             );
           },
         ),
@@ -77,7 +77,7 @@ Widget drawer(context) {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => RoomsActions('Tipo3')),
+              MaterialPageRoute(builder: (context) => RoomsActions('3')),
             );
           },
         ),

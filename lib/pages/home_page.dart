@@ -20,20 +20,6 @@ class _HomePageState extends State<HomePage> {
   ZetaApiClient _client = ZetaApiClient();
   String url = 'https://zeta-house.herokuapp.com';
 
-  final Stream databaseReference = Firestore.instance
-      .collection("Temperatura")
-      .orderBy("Data", descending: true)
-      .limit(1)
-      .snapshots();
-
-  var _value = 20.0;
-
-//  @override
-//  void initState() {
-//
-//    super.initState();
-//  }
-//
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: drawer(context),
@@ -247,9 +233,6 @@ class _HomePageState extends State<HomePage> {
                   width: 190,
                   height: 200,
                   child: GestureDetector(
-                    onTap: () {
-                      //print(databaseReference.toList());
-                    },
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
@@ -292,15 +275,11 @@ class _HomePageState extends State<HomePage> {
                                           CrossAxisAlignment.center,
                                       textDirection: TextDirection.ltr,
                                       children: <Widget>[
-//                                        Padding(
-//                                          padding: const EdgeInsets.only(top: 25.0, bottom: 25.0),
-//                                        ),
                                         Center(
                                           child: Text(
                                             ds["Temperatura"] + "°C",
                                             style: TextStyle(fontSize: 50),
                                           ),
-                                          //flex: 5,
                                         ),
                                       ],
                                     );
@@ -322,13 +301,6 @@ class _HomePageState extends State<HomePage> {
                   width: 190,
                   height: 200,
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RoomsActions('2')),
-                      );
-                    },
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),

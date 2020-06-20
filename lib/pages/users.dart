@@ -61,7 +61,7 @@ class Users extends StatelessWidget {
           //height: 100,
           width: double.maxFinite,
           child: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => EditUser(ds)),
@@ -89,7 +89,8 @@ class Users extends StatelessWidget {
                                   Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     textDirection: TextDirection.ltr,
                                     children: <Widget>[
                                       Padding(
@@ -131,15 +132,5 @@ class Users extends StatelessWidget {
         );
       },
     );
-  }
-
-  deleteData(docId) {
-    Firestore.instance
-        .collection(userCollection)
-        .document(docId)
-        .delete()
-        .catchError((e) {
-      print(e);
-    });
   }
 }

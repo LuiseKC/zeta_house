@@ -19,7 +19,6 @@ class _EditUserState extends State<EditUser> {
 
   _EditUserState(this.ds);
 
-
   Usuario user;
 
   final databaseReference = Firestore.instance;
@@ -49,8 +48,6 @@ class _EditUserState extends State<EditUser> {
   @override
   Widget build(BuildContext context) {
     final title = 'Editar Usuário';
-
-
 
     return Scaffold(
       drawer: drawer(context),

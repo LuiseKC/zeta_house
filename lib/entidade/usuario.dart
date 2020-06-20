@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 class Usuario {
   String Id;
@@ -9,13 +9,9 @@ class Usuario {
   String Nome;
   String ApiToken;
 
-//String enderecoId;
-//DateTime dateUltimoAcesso;
-//int grupoId;
-//bool excluido;
-
   Usuario();
-  void CreateUserFromJson(Map<String, dynamic> jsonUsuario){
+
+  void CreateUserFromJson(Map<String, dynamic> jsonUsuario) {
     Id = jsonUsuario['Id'];
     Email = jsonUsuario['Email'];
     Senha = jsonUsuario['Senha'];
@@ -26,12 +22,11 @@ class Usuario {
 
   Usuario.fromJson(Map<String, dynamic> json)
       : Nome = json['data']['Nome'],
-        Email= json['data']['Email'],
-        Senha= json['data']['Senha'],
-        Admin = json['data']['Admin'] == 'true'? true: false,
+        Email = json['data']['Email'],
+        Senha = json['data']['Senha'],
+        Admin = json['data']['Admin'] == 'true' ? true : false,
         GrupoId = json['data']['GrupoId'].toString(),
         ApiToken = json['data']['ApiToken'];
-
 
   Map<String, dynamic> toJson() => {
         'name': Nome,

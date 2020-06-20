@@ -259,26 +259,4 @@ class _RoomsActionsState extends State<RoomsActions> {
     http.Response resp = await http.post(requestUrl, body: json);
     print(resp);
   }
-
-//  Future<void> TryLogin(BuildContext context) async {
-//    try {
-//      _client.urlApi = url;
-//      Map auth =
-//      _client.HandleAction();
-//      Navigator.of(_keyLoader.currentContext, rootNavigator: true)
-//          .pop(); //close the dialoge
-//      if (auth['success']) {
-//        Navigator.push(
-//          context,
-//          MaterialPageRoute(builder: (context) => HomePage()),
-//        );
-//      } else {
-//        showAlertDialog(context);
-//      }
-//    } catch (error) {
-//      print(error);
-//    }
-//    //_client.HandleAction();
-//  }
-
 }
