@@ -21,6 +21,9 @@ class _HomePageState extends State<HomePage> {
   String url = 'https://zeta-house.herokuapp.com';
 
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       drawer: drawer(context),
       appBar: AppBar(
@@ -34,7 +37,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Container(
-                  width: 190,
+                  width: width*0.45,
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -64,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   //padding: EdgeInsets.all(5.0),
-                  width: 190,
+                  width: width*0.45,
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Container(
-                  width: 190,
+                  width: width*0.45,
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -129,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   //padding: EdgeInsets.all(5.0),
-                  width: 190,
+                  width: width*0.45,
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -164,7 +167,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Container(
-                  width: 190,
+                  width: width*0.45,
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -195,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   //padding: EdgeInsets.all(5.0),
-                  width: 190,
+                  width: width*0.45,
                   height: 80,
                   child: GestureDetector(
                     onTap: () {
@@ -230,7 +233,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Container(
-                  width: 190,
+                  width: width*0.45,
                   height: 200,
                   child: GestureDetector(
                     child: Card(
@@ -298,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Container(
                   //padding: EdgeInsets.all(5.0),
-                  width: 190,
+                  width: width*0.45,
                   height: 200,
                   child: GestureDetector(
                     child: Card(

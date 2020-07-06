@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:zeta_house/pages/home_page.dart';
 import 'package:zeta_house/shared/drawer.dart';
 
 class Settings extends StatefulWidget {
@@ -39,6 +40,10 @@ class _SettingsState extends State<Settings> {
           textColor: Colors.white,
           onPressed: () {
             configAction(sensorChuva, sensorGas, temp, ativoTemp, sensorLdr);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => HomePage()),
+            );
           },
           child: Text("Salvar"),
         ),

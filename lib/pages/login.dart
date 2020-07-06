@@ -184,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
     // configura o  AlertDialog
     AlertDialog alerta = AlertDialog(
       title: Text("Erro"),
-      content: Text("Login ou senha incorretos."),
+      content: Text("E-mail ou senha incorretos."),
       actions: [
         okButton,
       ],
